@@ -1,0 +1,5 @@
+{
+    "broker_host": "broker.hivemq.com",
+    "broker_port": "1883",
+    "data_topic": "thermowatch/led"
+}

@@ -1,0 +1,2 @@
+###### Alle verwendeten Pakete sind hier einzutragen ######
+# Muster: fremdespaket==1.0.0
