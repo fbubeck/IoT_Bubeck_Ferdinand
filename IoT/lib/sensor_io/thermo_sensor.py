@@ -15,7 +15,7 @@ class ThermoSensor:
 
         # Nach Aktivierung des Pull-UP Widerstandes wird gewartet,
         # bis die Kommunikation mit dem DS18B20 Sensor aufgebaut ist
-        print ('Warte auf Initialisierung...')
+        print ('Warte auf Initialisierung des Sensors...')
 
         base_dir = '/sys/bus/w1/devices/'
         while True:

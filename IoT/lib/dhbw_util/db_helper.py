@@ -32,7 +32,7 @@ class DbHelper:
     
     #  Legt die Datenbank an, wenn sie noch nicht existiert
     def create_db(self):
-        sql_create_measurements_table = """ CREATE TABLE IF NOT EXISTS measurements(id integer PRIMARY KEY, timestamp DATETIME, sensor_temperature INTEGER, unit VARCHAR); """
+        sql_create_measurements_table = """CREATE TABLE IF NOT EXISTS measurements (id integer PRIMARY KEY, timestamp text, sensor_temperature integer, unit text);"""
 
         connection = self.create_connection()
 
@@ -46,6 +46,7 @@ class DbHelper:
         try:
             cursor = connection.cursor()
             cursor.execute(create_table_sql)
+            print("Tabelle erfolgreich angelegt")
         except Error as error:
             print(error)
 
@@ -55,27 +56,22 @@ class DbHelper:
         try:
             connection = self.create_connection()
             cursor = connection.cursor()
-            print("Verbindung offen.")
 
             timestamp = measurement["timestamp"]
             temp = measurement["temperature"]
             unit = measurement["unit"]
-            params = (timestamp, temp, unit)
+            params = timestamp, temp, unit
+            print(params)
 
-            sqlite_insert_query = """INSERT INTO ‘measurements‘
-                (’id’, ’timestamp’, ’sensor_temperature’, 'unit')
-                VALUES (NULL, ?, ?, ?);""" # Null für Autoincrement
-
-            cursor.execute(sqlite_insert_query, params)
+            cursor.execute("""INSERT INTO measurements VALUES(NULL, ?, ?, ?)""", params)
             connection.commit()
-            print("Einfügen erfolgreich für %s Datensätze: ", cursor.rowcount)
+            print(cursor.rowcount, "Datensatz eingefügt")
             cursor.close()
         except sqlite3.Error as error:
             print("Fehler beim Einfügen", error)
         finally:
             if (connection):
                 connection.close()
-                print("Verbindung geschlossen")
 
 
     # gibt eine Liste von Tupeln zurueck mit Format entsprechend save_measurement
